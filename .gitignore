@@ -63,6 +63,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+RemoteSystemsTempFiles/
 
 # External tool builders
 .externalToolBuilders/
@@ -75,3 +76,10 @@ local.properties
 
 # STM32CubeIDE
 Debug/
+
+# Other local projects
+C0*_LAB*/
+C0*_PROY*/
+prueba*/
+C0*_LAB*.*
+C0*_PROY*.*
