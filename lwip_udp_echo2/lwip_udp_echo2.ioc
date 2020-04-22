@@ -1,9 +1,11 @@
 #MicroXplorer Configuration settings - do not modify
-CORTEX_M7.CPU_DCache=Enabled
-CORTEX_M7.CPU_ICache=Enabled
+CORTEX_M7.CPU_DCache=Disabled
+CORTEX_M7.CPU_ICache=Disabled
 CORTEX_M7.IPParameters=CPU_ICache,CPU_DCache
-ETH.IPParameters=MediaInterface,PhyAddress
+ETH.IPParameters=MediaInterface,PhyAddress,PHY_ISFR_INT4,PHY_RESET_DELAY
 ETH.MediaInterface=ETH_MEDIA_INTERFACE_RMII
+ETH.PHY_ISFR_INT4=0x0010
+ETH.PHY_RESET_DELAY=0x00000FFF
 ETH.PhyAddress=0
 FREERTOS.FootprintOK=true
 FREERTOS.IPParameters=Tasks01,FootprintOK,configTIMER_TASK_PRIORITY,Mutexes01,Timers01
