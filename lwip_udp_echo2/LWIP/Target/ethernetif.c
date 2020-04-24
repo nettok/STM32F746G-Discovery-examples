@@ -281,7 +281,9 @@ static void low_level_init(struct netif *netif)
   HAL_ETH_Start(&heth);
 
 /* USER CODE BEGIN PHY_PRE_CONFIG */ 
-    
+  heth.Instance->MACIMR = ETH_MACIMR_TSTIM | ETH_MACIMR_PMTIM;
+  heth.Instance->MMCRIMR = ETH_MMCRIMR_RGUFM | ETH_MMCRIMR_RFAEM | ETH_MMCRIMR_RFCEM;
+  heth.Instance->MMCTIMR = ETH_MMCTIMR_TGFM | ETH_MMCTIMR_TGFMSCM | ETH_MMCTIMR_TGFSCM;
 /* USER CODE END PHY_PRE_CONFIG */
   
 
@@ -517,6 +519,7 @@ void ethernetif_input(void* argument)
           }
         }
         UNLOCK_TCPIP_CORE();
+        osDelay(25);
       } while(p!=NULL);
     }
   }
