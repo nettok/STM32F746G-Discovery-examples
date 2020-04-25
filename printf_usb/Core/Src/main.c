@@ -96,7 +96,7 @@ void debug(const char* format, ...) {
   }
 }
 
-const int MAX_USBD_BUSY_LOOPS = 100;
+const int MAX_USBD_BUSY_LOOPS = 500;
 int busyLoopCounter = 0;
 
 int _write(int file, char *ptr, int len) {
@@ -296,13 +296,10 @@ void StartDefaultTask(void *argument)
   /* USER CODE BEGIN 5 */
   osTimerStart(ledTimerHandle, 1000);
 
-  char* format = "Hola %s!\r\n\0";
-  char* neto = "neto\0";
-
   /* Infinite loop */
   for(;;)
   {
-    debug(format, neto);
+    debug("Hola %s!\r\n", "neto");
     osDelay(1000);
   }
   /* USER CODE END 5 */ 
@@ -318,8 +315,6 @@ void StartDefaultTask(void *argument)
 void ButtonTask(void *argument)
 {
   /* USER CODE BEGIN ButtonTask */
-  char* buttonPressed = "Apacho el boton!\r\n\0";
-
   uint8_t alreadyPressed = 0;
 
   /* Infinite loop */
@@ -329,7 +324,7 @@ void ButtonTask(void *argument)
       if (!alreadyPressed) {
         alreadyPressed = 1;
         HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-        debug(buttonPressed);
+        debug("Apacho el boton!\r\n");
       }
     } else {
       alreadyPressed = 0;
@@ -343,9 +338,8 @@ void ButtonTask(void *argument)
 void LedCallback(void *argument)
 {
   /* USER CODE BEGIN LedCallback */
-  char* ledTimerTriggered = "Se activo el timer del LED!\r\n\0";
   HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-  debug(ledTimerTriggered);
+  debug("Se activo el timer del LED!\r\n");
   /* USER CODE END LedCallback */
 }
 
