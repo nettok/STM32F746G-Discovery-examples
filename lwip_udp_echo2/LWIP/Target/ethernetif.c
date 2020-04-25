@@ -519,7 +519,7 @@ void ethernetif_input(void* argument)
           }
         }
         UNLOCK_TCPIP_CORE();
-        osDelay(25);
+        osDelay(30);
       } while(p!=NULL);
     }
   }
