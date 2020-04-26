@@ -30,6 +30,7 @@
 #include "stdarg.h"
 #include "api.h"
 #include "sntp.h"
+#include "mqtt.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -288,15 +289,34 @@ void StartDefaultTask(void *argument)
 
 //  sntp_setserver(idx, server)
 
+  osDelay(3000); // wait for ethernet and DHCP to settle
+
   ip4_addr_t ntp_server_addr;
   netconn_gethostbyname("pool.ntp.org", &ntp_server_addr);
 
   sntp_init();
 
+  mqtt_client_t *mqtt_client = mqtt_client_new();
+  struct mqtt_connect_client_info_t mqtt_client_info;
+  mqtt_client_info.client_id = "stm32f746";
+  mqtt_client_info.client_user = NULL;
+  mqtt_client_info.client_pass = NULL;
+  mqtt_client_info.keep_alive = 1;
+  mqtt_client_info.will_msg = NULL;
+  mqtt_client_info.will_qos = 0;
+  mqtt_client_info.will_retain = 0;
+  mqtt_client_info.will_topic = NULL;
+  ip4_addr_t revmac_addr;
+  IP4_ADDR(&revmac_addr, 192, 168, 0, 31);
+  err_t mqtt_connect_result = mqtt_client_connect(mqtt_client, &revmac_addr, 1883, NULL, NULL, &mqtt_client_info);
+
   for (;;) {
     uint32_t ticks = osKernelGetTickCount();
     if (ticks > 8000) {
 
+      if (mqtt_client_is_connected(mqtt_client)) {
+        mqtt_publish(mqtt_client, "test/1", "Olafo", 5, 1, 0, NULL, NULL);
+      }
 
       //char ntp[32];
 
