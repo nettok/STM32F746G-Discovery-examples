@@ -508,8 +508,10 @@ void ethernetif_input(void* argument)
     if (osSemaphoreAcquire(s_xSemaphore, TIME_WAITING_FOR_INPUT) == osOK)
     {
       do
-      {   
+      {
+        osDelay(25);
         LOCK_TCPIP_CORE();
+        osDelay(1);
         p = low_level_input( netif );
         if   (p != NULL)
         {
@@ -519,7 +521,6 @@ void ethernetif_input(void* argument)
           }
         }
         UNLOCK_TCPIP_CORE();
-        osDelay(30);
       } while(p!=NULL);
     }
   }

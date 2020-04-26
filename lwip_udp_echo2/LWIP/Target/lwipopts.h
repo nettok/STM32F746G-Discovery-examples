@@ -49,16 +49,16 @@
 /* Parameters set in STM32CubeMX LwIP Configuration GUI -*/
 /*----- Value in opt.h for LWIP_DHCP: 0 -----*/
 #define LWIP_DHCP 1
+/*----- Default Value for LWIP_DNS: 0 ---*/
+#define LWIP_DNS 1
 /*----- Default Value for LWIP_MPU_COMPATIBLE: 0 ---*/
-#define LWIP_MPU_COMPATIBLE 1
+#define LWIP_MPU_COMPATIBLE 0
 /*----- Value in opt.h for MEM_ALIGNMENT: 1 -----*/
 #define MEM_ALIGNMENT 4
 /*----- Default Value for MEM_SIZE: 1600 ---*/
 #define MEM_SIZE 3200
 /*----- Default Value for MEMP_NUM_PBUF: 16 ---*/
 #define MEMP_NUM_PBUF 32
-/*----- Value in opt.h for MEMP_NUM_SYS_TIMEOUT: (LWIP_TCP + IP_REASSEMBLY + LWIP_ARP + (2*LWIP_DHCP) + LWIP_AUTOIP + LWIP_IGMP + LWIP_DNS + (PPP_SUPPORT*6*MEMP_NUM_PPP_PCB) + (LWIP_IPV6 ? (1 + LWIP_IPV6_REASS + LWIP_IPV6_MLD) : 0)) -*/
-#define MEMP_NUM_SYS_TIMEOUT 5
 /*----- Default Value for PBUF_POOL_SIZE: 16 ---*/
 #define PBUF_POOL_SIZE 32
 /*----- Value in opt.h for LWIP_ETHERNET: LWIP_ARP || PPPOE_SUPPORT -*/
@@ -95,6 +95,8 @@
 #define DEFAULT_ACCEPTMBOX_SIZE 6
 /*----- Value in opt.h for RECV_BUFSIZE_DEFAULT: INT_MAX -----*/
 #define RECV_BUFSIZE_DEFAULT 2000000000
+/*----- Default Value for LWIP_SNTP: 0 ---*/
+#define LWIP_SNTP 1
 /*----- Value in opt.h for LWIP_STATS: 1 -----*/
 #define LWIP_STATS 0
 /*----- Value in opt.h for CHECKSUM_GEN_IP: 1 -----*/
@@ -119,7 +121,8 @@
 #define CHECKSUM_CHECK_ICMP6 0
 /*-----------------------------------------------------------------------------*/
 /* USER CODE BEGIN 1 */
-
+#define SNTP_SERVER_DNS 1
+#define SNTP_SERVER_ADDRESS "pool.ntp.org"
 /* USER CODE END 1 */
 
 #ifdef __cplusplus

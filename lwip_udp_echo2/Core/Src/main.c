@@ -29,6 +29,7 @@
 #include "usbd_cdc_if.h"
 #include "stdarg.h"
 #include "api.h"
+#include "sntp.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,14 +53,14 @@ osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
   .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 512 * 4
+  .stack_size = 2048 * 4
 };
 /* Definitions for udpEchoServer */
 osThreadId_t udpEchoServerHandle;
 const osThreadAttr_t udpEchoServer_attributes = {
   .name = "udpEchoServer",
   .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 512 * 4
+  .stack_size = 2048 * 4
 };
 /* Definitions for debugHeartbeatTimer */
 osTimerId_t debugHeartbeatTimerHandle;
@@ -89,13 +90,13 @@ void DebugHeartbeatCallback(void *argument);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 void debug(const char* format, ...) {
-  if (osMutexAcquire(usbCdcMutexHandle, osWaitForever) == osOK) {
+  //if (osMutexAcquire(usbCdcMutexHandle, osWaitForever) == osOK) {
     va_list args;
     va_start(args, format);
     vprintf(format, args);
     va_end(args);
-    osMutexRelease(usbCdcMutexHandle);
-  }
+//    osMutexRelease(usbCdcMutexHandle);
+//  }
 }
 
 const int MAX_USBD_BUSY_LOOPS = 1000;
@@ -283,8 +284,35 @@ void StartDefaultTask(void *argument)
   /* init code for USB_DEVICE */
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 5 */
-  osTimerStart(debugHeartbeatTimerHandle, 3000);
-  osThreadExit();
+  //osTimerStart(debugHeartbeatTimerHandle, 3000);
+
+//  sntp_setserver(idx, server)
+
+  ip4_addr_t ntp_server_addr;
+  netconn_gethostbyname("pool.ntp.org", &ntp_server_addr);
+
+  sntp_init();
+
+  for (;;) {
+    uint32_t ticks = osKernelGetTickCount();
+    if (ticks > 8000) {
+
+
+      //char ntp[32];
+
+      //ip4addr_ntoa_r(&addr1, ntp, 32);
+      //ip4addr_ntoa_r(&addr2, &google, 32);
+
+      //debug("Heartbeat kernelTickCount=%d\r\n", ticks);
+      //debug("pool.ntp.org: %s\r\n", ntp);
+      //debug("google.com: %s\r\n", google);
+
+      osDelay(1000);
+    }
+
+
+  }
+//  osThreadExit();
   /* USER CODE END 5 */ 
 }
 
@@ -343,7 +371,7 @@ void EchoServerTask(void *argument)
 void DebugHeartbeatCallback(void *argument)
 {
   /* USER CODE BEGIN DebugHeartbeatCallback */
-  debug("Heartbeat kernelTickCount=%d\r\n", osKernelGetTickCount());
+  //debug("Heartbeat kernelTickCount=%d\r\n", osKernelGetTickCount());
   /* USER CODE END DebugHeartbeatCallback */
 }
 
